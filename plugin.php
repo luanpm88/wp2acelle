@@ -9,10 +9,6 @@
  * Author URI:        https://acellemail.com/
  */
 
-if (!defined('WORDPRESS_MODE')) {
-    define('WORDPRESS_MODE', microtime(true));
-}
-
 // Get laravel app response
 function wp2acelle_getResponse($path=null)
 {
@@ -45,7 +41,7 @@ add_action('admin_menu', 'wp2acelle_menu');
 function wp2acelle_menu_main()
 {
     $hook = add_submenu_page('wp-wp2acelle-main', esc_html__('Dashboard', 'wp2acelle'), esc_html__('Dashboard', 'wp2acelle'), 'edit_pages', 'wp-wp2acelle-main', function () {
-        $response = wp2acelle_getResponse();
+        $response = wp2acelle_getResponse('/acelle-connect');
 
         // send response
         $response->sendHeaders();
@@ -53,3 +49,92 @@ function wp2acelle_menu_main()
     });
 }
 add_action('admin_menu', 'wp2acelle_menu_main');
+
+// Ajax page
+function wp2acelle_ajax()
+{
+    if (!defined('LARAVEL_START')) {
+        define('LARAVEL_START', microtime(true));
+    }
+    require __DIR__.'/vendor/autoload.php';
+    $app = require_once __DIR__.'/bootstrap/app.php';
+    $wp2acelle_kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+    
+    $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '/';
+
+    $response = $wp2acelle_kernel->handle(
+        Acelle\Wordpress\LaravelRequest::capture($path)
+    );
+
+    // Comment line below, do not send response
+    $response->send();
+
+    // Suppress the 0 character rendered in admin-ajax.php::wp_die(0)
+    wp_die();
+}
+add_action('wp_ajax_wp2acelle_ajax', 'wp2acelle_ajax');
+
+// Helpers
+/**
+ * WP action helper for laravel.
+ */
+
+function wp2acelle_public_url($path)
+{
+    return plugins_url('wp2acelle/public/' . $path);
+}
+
+/**
+ * WP action helper for laravel.
+ */
+function wp2acelle_wp_action($name, $parameters = [], $absolute = true)
+{
+    $base = url('/');
+    $full = app('url')->action($name, $parameters, $absolute);
+    $path = str_replace($base, '', $full);
+
+    return admin_url('admin.php?page=wp-wp2acelle-main&path=' . str_replace('?', '&', $path));
+}
+
+/**
+ * WP action helper for laravel.
+ */
+function wp2acelle_lr_action($name, $parameters = [], $absolute = true)
+{
+    $base = url('/');
+    $full = app('url')->action($name, $parameters, $absolute);
+    $path = str_replace($base, '', $full);
+    return admin_url('admin-ajax.php?action=wp2acelle_ajax&path=' . str_replace('?', '&', $path));
+}
+
+/**
+ * WP url helper for laravel.
+ */
+function wp2acelle_wp_url($path = null, $parameters = [], $secure = null)
+{
+    if (is_null($path)) {
+        $path = app(\Illuminate\Routing\UrlGenerator::class);
+    }
+
+    $base = url('/');
+    $full = app(\Illuminate\Routing\UrlGenerator::class)->to($path, $parameters, $secure);
+    $path = str_replace($base, '', $full);
+
+    return admin_url('admin.php?page=wp-wp2acelle-main&path=' . str_replace('?', '&', $path));
+}
+
+/**
+ * WP url helper for laravel.
+ */
+function wp2acelle_lr_url($path = null, $parameters = [], $secure = null)
+{
+    if (is_null($path)) {
+        $path = app(\Illuminate\Routing\UrlGenerator::class);
+    }
+
+    $base = url('/');
+    $full = app(\Illuminate\Routing\UrlGenerator::class)->to($path, $parameters, $secure);
+    $path = str_replace($base, '', $full);
+
+    return admin_url('admin-ajax.php?action=wp2acelle_ajax&path=' . str_replace('?', '&', $path));
+}
