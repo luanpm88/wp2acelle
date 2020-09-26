@@ -1,5 +1,9 @@
 <?php
 
+// Load WORDPRESS
+chdir(__DIR__.'/../../../../wp-admin/');
+require_once dirname( __DIR__ ) . '/../../../wp-load.php';
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
