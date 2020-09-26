@@ -53,18 +53,7 @@ add_action('admin_menu', 'wp2acelle_menu_main');
 // Ajax page
 function wp2acelle_ajax()
 {
-    if (!defined('LARAVEL_START')) {
-        define('LARAVEL_START', microtime(true));
-    }
-    require __DIR__.'/vendor/autoload.php';
-    $app = require_once __DIR__.'/bootstrap/app.php';
-    $wp2acelle_kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-    
-    $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '/';
-
-    $response = $wp2acelle_kernel->handle(
-        Acelle\Wordpress\LaravelRequest::capture($path)
-    );
+    $response = wp2acelle_getResponse($path);
 
     // Comment line below, do not send response
     $response->send();
