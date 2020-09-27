@@ -10,7 +10,7 @@
     <div class="input-group mb-3">
         <input type="text" class="form-control bg-danger text-white readonly link"
             placeholder="" readonly
-            value="{{ wp2acelle_lr_url('/acelle-connect') }}"
+            value="{{ wp2acelle_lr_url('/connect') }}"
         >
         <div class="input-group-append">
             <button class="button button-primary bg-dark button-copy" type="button">Copy</button>
