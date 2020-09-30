@@ -1,7 +1,7 @@
 <link rel='stylesheet' href='{{ wp2acelle_public_url('css/bootstrap.min.css') }}' />
 <link rel='stylesheet' href='{{ wp2acelle_public_url('css/wp2acelle.css') }}' />
 
-<div style="width: 580px" class="p-5">
+<div style="width: 500px" class="p-5">
     <img class="mb-4" style="margin-left:-14px" width="160px" src='<?php echo wp2acelle_public_url('image/saas.svg') ?>' />
     <h1>{{ esc_html__('WP2Acelle is activated', 'beemail') }}</h1>
     <p class="mt-3">{{ esc_html__('Your WordPress site is now available for access from Acelle Mail.
@@ -10,7 +10,7 @@
     <div class="input-group mb-3">
         <input type="text" class="form-control bg-danger text-white readonly link"
             placeholder="" readonly
-            value="{{ wp2acelle_lr_url('/connect') }}"
+            value="{{ get_rest_url() }}acelle/connect"
         >
         <div class="input-group-append">
             <button class="button button-primary bg-dark button-copy" type="button">Copy</button>

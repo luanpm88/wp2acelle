@@ -127,3 +127,16 @@ function wp2acelle_lr_url($path = null, $parameters = [], $secure = null)
 
     return admin_url('admin-ajax.php?action=wp2acelle_ajax&path=' . str_replace('?', '&', $path));
 }
+
+// WordPress rest api connect
+function wp2acelle_connect( $data ) {
+    $response = wp2acelle_getResponse('/connect');
+    // Comment line below, do not send response
+    $response->send();
+}
+add_action( 'rest_api_init', function () {
+    register_rest_route( '/acelle', '/connect', array(
+        'methods' => 'GET',
+        'callback' => 'wp2acelle_connect',
+    ));
+});

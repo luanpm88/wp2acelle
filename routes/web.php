@@ -20,5 +20,5 @@ Route::get('/acelle-connect', function () {
 });
 
 Route::get('/connect', function () {
-    return response()->json(App\Model\WoocommerceSession::getAbandondedCarts());
+    return response()->json(App\Model\WcProductMetaLookup::getProductOptions());
 });
