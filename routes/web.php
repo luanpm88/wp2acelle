@@ -19,6 +19,4 @@ Route::get('/acelle-connect', function () {
     return view('acelleConnect');
 });
 
-Route::get('/connect', function () {
-    return response()->json(App\Model\WcProductMetaLookup::getProductOptions());
-});
+Route::get('/connect', 'Controller@connect');
