@@ -31,6 +31,7 @@ class Controller extends BaseController
             return response()->json([
                 'id' => $post->ID,
                 'name' => $post->post_title,
+                'price' => wc_price($product->get_price()),
                 'image' => $image_url,
                 'description' => substr(strip_tags($post->post_content), 0, 100),
                 'link' => get_permalink( $post->ID ),
