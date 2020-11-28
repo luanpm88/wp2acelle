@@ -28,6 +28,15 @@ function acellesync_getResponse($path=null)
     return $response;
 }
 
+function acellesync_activate() {
+    acellesync_getResponse('/');
+
+    // actually call the Artisan command
+    \Artisan::call('config:cache');
+}
+  
+register_activation_hook( __FILE__, 'acellesync_activate' );
+
 // Main admin menu
 function acellesync_menu()
 {
