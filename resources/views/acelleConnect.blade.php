@@ -1,9 +1,9 @@
-<link rel='stylesheet' href='{{ wp2acelle_public_url('css/bootstrap.min.css') }}' />
-<link rel='stylesheet' href='{{ wp2acelle_public_url('css/wp2acelle.css') }}' />
+<link rel='stylesheet' href='{{ acellesync_public_url('css/bootstrap.min.css') }}' />
+<link rel='stylesheet' href='{{ acellesync_public_url('css/acellesync.css') }}' />
 
 <div style="width: 500px" class="p-5">
-    <img class="mb-4" style="margin-left:-14px" width="160px" src='<?php echo wp2acelle_public_url('image/saas.svg') ?>' />
-    <h1>{{ esc_html__('WP2Acelle is activated', 'beemail') }}</h1>
+    <img class="mb-4" style="margin-left:-14px" width="160px" src='<?php echo acellesync_public_url('image/saas.svg') ?>' />
+    <h1>{{ esc_html__('AcelleSync is activated', 'beemail') }}</h1>
     <p class="mt-3">{{ esc_html__('Your WordPress site is now available for access from Acelle Mail.
         Use the following Connection URL if you are asked by Acelle.
     ') }}</p>
