@@ -13,6 +13,16 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Check if WooCommerce is active
+     **/
+    public function is_woocommerce_installed() {
+        return in_array( 
+            'woocommerce/woocommerce.php', 
+            apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) 
+        );
+    }
+
+    /**
      * Connect to Acelle.
      *
      * @return \Illuminate\Http\Response
@@ -20,6 +30,11 @@ class Controller extends BaseController
     public function connect(Request $request)
     {
         header("Access-Control-Allow-Origin: *");
+
+        if (!$this->is_woocommerce_installed()) {
+            return response('WooCommerce is not available in the target WordPress instance', 404)
+                ->header('Content-Type', 'text/plain');
+        }
 
         if ($request->product_id) {
             $post = \App\Model\Post::find($request->product_id);
@@ -35,6 +50,14 @@ class Controller extends BaseController
                 'image' => $image_url,
                 'description' => substr(strip_tags($post->post_content), 0, 100),
                 'link' => get_permalink( $post->ID ),
+            ]);
+        }
+
+        elseif ($request->action == 'shop_info') {
+            return response()->json([
+                'name' => get_bloginfo('name'),
+                'url' => get_site_url(),
+                'logo' => get_custom_logo(),
             ]);
         }
 
