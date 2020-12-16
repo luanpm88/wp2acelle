@@ -142,6 +142,8 @@ function acellesync_connect( $data ) {
     $response = acellesync_getResponse('/connect');
     // Comment line below, do not send response
     $response->send();
+
+    die();
 }
 add_action( 'rest_api_init', function () {
     register_rest_route( '/acelle', '/connect', array(
