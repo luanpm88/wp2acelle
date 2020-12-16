@@ -67,8 +67,8 @@ function acellesync_ajax()
     // Comment line below, do not send response
     $response->send();
 
-    // Suppress the 0 character rendered in admin-ajax.php::wp_die(0)
-    wp_die();
+    // Do not use wp_die() here, it will produce WP default layout, use die() instead;
+    die();
 }
 add_action('wp_ajax_acellesync_ajax', 'acellesync_ajax');
 
