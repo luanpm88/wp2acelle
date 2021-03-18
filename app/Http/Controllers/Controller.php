@@ -58,6 +58,9 @@ class Controller extends BaseController
                 'name' => get_bloginfo('name'),
                 'url' => get_site_url(),
                 'logo' => get_custom_logo(),
+                'products_count' => wp_count_posts( 'product' )->publish,
+                'orders_count' => wc_orders_count('wc-completed'),
+                'total_sales' => 0,
             ]);
         }
 
