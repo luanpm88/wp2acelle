@@ -1,7 +1,7 @@
 <?php
 /**
  * @wordpress-plugin
- * Plugin Name:       AcelleSync Plugin
+ * Plugin Name:       WordPress Plugin for Acelle Plugin
  * Plugin URI:        https://acellemail.com/
  * Description:       A plugin.
  * Version:           1.0
@@ -41,7 +41,7 @@ register_activation_hook( __FILE__, 'acellesync_activate' );
 function acellesync_menu()
 {
     // add menu page
-    $menu = add_menu_page(esc_html__('AcelleSync', 'acellesync'), esc_html__('AcelleSync', 'acellesync'), 'edit_pages', 'wp-acellesync-main', function () {
+    $menu = add_menu_page(esc_html__('Acelle Connect', 'acellesync'), esc_html__('Acelle Connect', 'acellesync'), 'edit_pages', 'wp-acellesync-main', function () {
     }, null, 54);
 }
 add_action('admin_menu', 'acellesync_menu');
@@ -151,3 +151,10 @@ add_action( 'rest_api_init', function () {
         'callback' => 'acellesync_connect',
     ));
 });
+
+// add beemail css to WordPress admin area
+function acellesync_add_theme_scripts()
+{
+    wp_enqueue_style('acellesync', plugin_dir_url(__FILE__) . 'public/css/wp-admin.css');
+}
+add_action('admin_enqueue_scripts', 'acellesync_add_theme_scripts');
