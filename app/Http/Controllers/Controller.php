@@ -54,10 +54,13 @@ class Controller extends BaseController
         }
 
         elseif ($request->action == 'shop_info') {
+            $custom_logo_id = get_theme_mod( 'custom_logo' );
+            $image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+
             return response()->json([
                 'name' => get_bloginfo('name'),
                 'url' => get_site_url(),
-                'logo' => get_custom_logo(),
+                'logo' => isset($image[0]) ? $image[0] : '',
                 'products_count' => wp_count_posts( 'product' )->publish,
                 'orders_count' => wc_orders_count('wc-completed'),
                 'total_sales' => 0,
