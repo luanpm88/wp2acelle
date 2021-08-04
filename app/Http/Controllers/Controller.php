@@ -70,6 +70,10 @@ class Controller extends BaseController
         if ($request->action == 'list') {
             return response()->json(\App\Model\WcProductMetaLookup::search($request));
         }
+        
+        if ($request->action == 'cart') {
+            return response()->json(\App\Model\WoocommerceSession::getAbandondedCarts());
+        }
 
         return \App\Model\WcProductMetaLookup::select2($request);
     }
